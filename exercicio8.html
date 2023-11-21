@@ -1,16 +1,136 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo da Velha</title>
-    <link rel="stylesheet" href="exercicio8.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        #board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid #333;
+            transition: background-color 0.3s;
+        }
+
+        .cell:hover {
+            background-color: #eee;
+        }
+
+        #message {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+    <title>Homem de ferro VS Thanos</title>
 </head>
 <body>
-    <h1>Jogo da Velha</h1>
-    <div class="board" id="board"></div>
-    <p class="message">Vez do Jogador X</p>
 
-    <script src="exercicio8.js"></script>
+<div id="board"></div>
+<div id="message"></div>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const boardElement = document.getElementById("board");
+        const messageElement = document.getElementById("message");
+
+        const playerSymbol = 'X';
+        const ironmanSymbol = 'O';
+
+        let board = [
+            ['', '', ''],
+            ['', '', ''],
+            ['', '', '']
+        ];
+
+        let currentPlayer = playerSymbol;
+        let gameOver = false;
+
+        function renderBoard() {
+            boardElement.innerHTML = "";
+            for (let row = 0; row < 3; row++) {
+                for (let col = 0; col < 3; col++) {
+                    const cell = document.createElement("div");
+                    cell.className = "cell";
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+                    cell.addEventListener("click", handleCellClick);
+
+                    const img = document.createElement("img");
+                    img.src = getSymbolImage(board[row][col]);
+                    cell.appendChild(img);
+
+                    boardElement.appendChild(cell);
+                }
+            }
+        }
+
+        function handleCellClick(event) {
+            if (gameOver) return;
+
+            const row = parseInt(event.target.dataset.row);
+            const col = parseInt(event.target.dataset.col);
+
+            if (board[row][col] === '') {
+                board[row][col] = currentPlayer;
+                renderBoard();
+
+                const winner = checkWinner();
+                if (winner) {
+                    gameOver = true;
+                    messageElement.textContent = `Parabéns! ${winner} Você salvou o Mundo!`;
+                } else if (isBoardFull()) {
+                    gameOver = true;
+                    messageElement.textContent = "O jogo empatou! Não há vencedor.";
+                } else {
+                    currentPlayer = currentPlayer === playerSymbol ? ironmanSymbol : playerSymbol;
+                    messageElement.textContent = `É a vez do ${currentPlayer === playerSymbol ? 'Thanos' : 'Homem de Ferro'}.`;
+                }
+            }
+        }
+
+        function getSymbolImage(symbol) {
+            if (symbol === playerSymbol) {
+                return 'thanos.png';  // Substitua 'x_image_path' pelo caminho da imagem do jogador (X)
+            } else if (symbol === ironmanSymbol) {
+                return 'ferro.png';  // Substitua 'o_image_path' pelo caminho da imagem do Homem de Ferro (O)
+            }
+            return '';
+        }
+
+        function checkWinner() {
+            // Lógica de verificação do vencedor (sem alterações)
+        }
+
+        function isBoardFull() {
+            // Lógica para verificar se o tabuleiro está cheio (sem alterações)
+        }
+
+        renderBoard();
+        messageElement.textContent = `Você firou poeira`;
+    });
+</script>
+
 </body>
 </html>
