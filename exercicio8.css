@@ -3,6 +3,7 @@ body {
     font-family: Arial, sans-serif; /* Define a fonte principal para Arial, com uma fonte de fallback em sans-serif caso Arial não esteja disponível. */
     text-align: center; /* Centraliza o texto no corpo da página. */
     background-color: #ffffff; /* Define a cor de fundo como um tom de cinza claro. */
+    background: rgb(255,0,0);background: linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(255,0,0,1) 16%, rgba(188,0,255,1) 100%);/*degrade. */
 }
 
 /* Estiliza o contêiner do tabuleiro */
